@@ -9,7 +9,7 @@
 
         return  {
             priority: 0,
-            template: '<div> moshe</div>',
+            templateUrl: 'src/js/html5player/html5player.html',
             scope: {
 
             },

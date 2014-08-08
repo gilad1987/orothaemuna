@@ -1,6 +1,6 @@
 (function () {
 
-    angular.module('app',[
+    angular.module('orothaemuna',[
         'ui.router',
         'youtube',
         'html5player'

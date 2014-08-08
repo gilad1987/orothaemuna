@@ -137,7 +137,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
-    grunt.registerTask('default',['injector','ngtemplates','concat','concat','uglify']);
+    grunt.registerTask('default',['injector','ngtemplates','concat','uglify']);
 
     grunt.registerTask('production', ['concat','uglify']);
 };
