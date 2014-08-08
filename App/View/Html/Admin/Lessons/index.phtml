@@ -1,0 +1,131 @@
+
+<div id="lessons" class="row lessons">
+	<form id="deleteForm" method="post" class="gt-validate" action="admin/lessons/delete">
+		<input type="hidden" name="id" id="lesson-id" value="" class="numeric">
+	</form>
+	
+	<div class="col-xs-12">
+		<h3 class="header smaller lighter blue">טבלת שיעורים</h3>
+		<div class="table-header">
+			תוצאות עבור "שיעורים"
+		</div>
+
+		<div class="table-responsive">
+			<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th class="center">
+							<label>
+								<input type="checkbox" class="ace" />
+								<span class="lbl"></span>
+							</label>
+						</th>
+						<th>#</th>
+						<th>שם הסדרה</th>
+						<th class="hidden-480">שם המרצה</th>
+
+						<th>
+							<i class="icon-time bigger-110 hidden-480"></i>
+							תאריך
+						</th>
+						<th class="hidden-480">מספר שיעור</th>
+                        <th class="hidden-480">אורך</th>
+						<th><span class="youtube-first">You</span><span class="youtube-last">Tube</span></th>
+						
+						<th>מספר הורדות</th>
+						<th>סטטוס</th>
+						<th>עריכה/מחיקה</th>
+					</tr>
+				</thead>
+
+				<tbody>
+				<?php foreach ($this->lessons as $key=>$lesson):?>
+				<?php $num = $key+1;?>
+					<tr data-id="<?php echo $lesson->id?>">
+						<td class="center">
+							<label>
+								<input type="checkbox" class="ace" />
+								<span class="lbl"></span>
+							</label>
+						</td>
+
+						<td>
+							<a href="#"><?php echo $num?></a>
+						</td>
+						<td><?php echo $this->escape($lesson->seriess_text);?></td>
+						<td class="hidden-480"><?php echo $lesson->lecturers_text?></td>
+						<td><?php echo $lesson->date.' '.$lesson->years_text;?></td>
+						<td><?php echo $lesson->number?></td>
+                        <td><?php echo $lesson->duration_hhmmss?></td>
+						<td class="hidden-480">
+							<?php if(!empty($lesson->youtube)):?>
+							<a class ="youtube" href="//www.youtube.com/embed/<?php echo $lesson->youtube?>?rel=0" data-youtube-embed="//www.youtube.com/embed/<?php echo $lesson->youtube?>?rel=0" target="blank" data-youtube-title="<?php echo $lesson->lecturers_text." - ".$lesson->seriess_text." - ".$lesson->years_text." - מספר -".$lesson->number?>">לצפיה</a>
+							<?php else:?>
+							<span class="red">אין סרטון במערכת</span>
+							<?php endif;?>
+						</td>
+						<td><?php echo $lesson->download_count?></td>
+						<td class="hidden-480">
+							<span class="label label-danger  "> לא מוצג כעת</span>
+							<span class="label label-sm label-success ">מוצג כעת</span>
+							<span class="label label-sm label-info ">ירד מהאוויר</span>
+						</td>
+
+						<td>
+							<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+							<!-- 
+																<a class="blue" href="#">
+																	<i class="icon-zoom-in bigger-130"></i>
+																</a>
+ 															-->
+						<!--  <?php $this->url(array('ctrl'=>'lessons','act'=>'update'));?> -->
+								<a class="green" href="admin/lessons/update/?lesson=<?php echo $lesson->id?>">
+									<i class="icon-pencil bigger-130"></i>
+								</a>
+
+								<button class="red btn-delete" data-lesson-id="<?php echo $lesson->id?>" data-lessons-info="<?php echo $this->escape($lesson->lecturers_text.' - '.$lesson->seriess_text.' - '.$lesson->years_text.' - מספר -'.$lesson->number)?>">
+									<i class="icon-trash bigger-130"></i>
+								</button>
+							</div>
+
+							<div class="visible-xs visible-sm hidden-md hidden-lg">
+								<div class="inline position-relative">
+									<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+										<i class="icon-caret-down icon-only bigger-120"></i>
+									</button>
+
+									<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+										<li>
+											<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+												<span class="blue">
+													<i class="icon-zoom-in bigger-120"></i>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+												<span class="green">
+													<i class="icon-edit bigger-120"></i>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+												<span class="red">
+													<i class="icon-trash bigger-120"></i>
+												</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</td>
+					</tr>
+				<?php endforeach;?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

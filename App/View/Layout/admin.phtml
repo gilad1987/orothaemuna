@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title><?php echo $this->pageTitle?></title>
+		<base href="/<?php if(!empty(App_Config::$base_directory)): echo BASE_DIRECTORY.'/'; endif;?>" />
+		<meta name="description" content="Minimal empty page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<link href="public/css/admin/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="public/css/admin/font-awesome.min.css" />
+		<link rel="stylesheet" href="public/css/admin/ace-fonts.css" />
+		<link rel="stylesheet" href="public/css/admin/ace.min.css" />
+		<link rel="stylesheet" href="public/css/admin/uncompressed/ace-rtl.css" />
+		<link rel="stylesheet" href="public/css/admin/ace-skins.min.css" />
+		<link rel="stylesheet" href="public/css/admin/datepicker.css" />
+		<link rel="stylesheet" href="public/css/admin/colorbox.css" />
+		
+		
+		<link rel="stylesheet" href="public/css/admin/bootstrap-timepicker.css" />
+		<link rel="stylesheet" href="public/css/admin/daterangepicker.css" />
+		
+		<link rel="stylesheet" href="public/css/admin/chosen.css" />
+		<link rel="stylesheet" href="public/css/admin/style.css" />
+
+        <script>
+            TaskHelper = {};
+            TaskHelper.token = '<?php echo $this->escape($this->csrf_token) ?>';
+        </script>
+
+	</head>
+
+	<body class="rtl">
+		<div class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+			<div class="nav-bar">
+				<div class="float_left">מערכת ניהול - מיזם אורות האמונה</div>
+				<div class="float_right">שלום - <?php echo $this->escape($this->user->first_name." ".$this->user->last_name)?></div>
+				<div class="clear"></div>
+			</div>
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<i class="icon-signal"></i>
+							</button>
+
+							<button class="btn btn-info">
+								<i class="icon-pencil"></i>
+							</button>
+
+							<button class="btn btn-warning">
+								<i class="icon-group"></i>
+							</button>
+
+							<button class="btn btn-danger">
+								<i class="icon-cogs"></i>
+							</button>
+						</div>
+
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+
+					<ul class="nav nav-list">
+						<li class="<?php if(isset($this->controllerName) && $this->controllerName == "Index" && isset($this->actionName) && $this->actionName == "index"):?>active<?php endif;?>">
+							<a href="<?php echo $this->url(array("module"=>"admin"));?>">
+								<i class="icon-dashboard"></i>
+								<span class="menu-text"> ראשי </span>
+							</a>
+						</li>
+						<li class="">
+							<a href="<?php echo $this->url(array("module"=>"index"));?>" target='blank'>
+								<i class="icon-desktop"></i>
+								<span class="menu-text"> לאתר </span>
+							</a>
+						</li>
+
+						<li class="<?php if(isset($this->controllerName) && $this->controllerName == "Lessons"):?>active open<?php endif;?>">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-desktop"></i>
+								<span class="menu-text"> שיעורים </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu <?php if(isset($this->actionName) && $this->actionName == "add"):?>active<?php endif;?>" style="<?php if(isset($this->actionName) && $this->actionName == "add"):?>display:block<?php endif;?>">
+								<li class="<?php if(isset($this->actionName) && ($this->actionName == "add" || $this->actionName == "update")):?>active<?php endif;?>">
+									<a href="<?php echo $this->url(array("ctrl"=>"lessons","act"=>"add"));?>">
+										<i class="icon-double-angle-right"></i>
+										<?php if(!isset($this->lesson)):?>הוספת<?php else:?>עדכון<?php endif;?> שיעור
+									</a>
+								</li>
+
+								<li class="<?php if(isset($this->controllerName) && $this->controllerName == "Lessons" && isset($this->actionName) && $this->actionName == "index"):?>active<?php endif;?>">
+									<a href="<?php echo $this->url(array("ctrl"=>"lessons"));?>">
+										<i class="icon-double-angle-right"></i>
+										כל השיעורים
+									</a>
+								</li>	
+															
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="<?php echo $this->url(array());?>">עמוד הבית</a>
+							</li>
+
+							<li>
+								<a href="<?php echo $this->url(array("ctrl"=>"lessons"));?>">שיעורים</a>
+							</li>
+							<li class="active"> עמוד נוכחי </li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="החיפוש עדין לא זמין..." class="nav-search-input" id="nav-search-input" autocomplete="off">
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+					<div class="page-content">
+					<?php echo $this->pageContent;?>
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+			</div><!-- /.main-container-inner -->
+		</div><!-- /.main-container -->
+		
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='public/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		
+
+		
+		<!-- 
+		<script src="public/js/template/bootstrap.min.js"></script>
+		<script src="public/js/template/typeahead-bs2.min.js"></script>
+		 -->
+		<!-- page specific plugin scripts -->
+
+		<!-- ace scripts -->
+		<script src="public/js/template/jquery-2.0.3.min.js"></script>
+		<script src="public/js/template/uncompressed/chosen.jquery.js"></script>
+		<script src="public/js/template/ace-elements.min.js"></script>
+		<script src="public/js/template/bootstrap.min.js"></script>
+		<script src="public/js/template/ace.min.js"></script>
+		<script src="public/js/template/jquery.dataTables.min.js"></script>
+		<script src="public/js/template/jquery.dataTables.bootstrap.js"></script>
+		<script src="public/js/template/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="public/js/template/ace-extra.min.js"></script>
+		<script src="public/js/template/bootbox.min.js"></script>
+		<script src="public/js/template/jquery.colorbox-min.js"></script>
+		
+		
+		<script src="public/js/script.js"></script>
+		<script src="public/js/gt.core.js"></script>
+		<script src="public/js/validationFunctions.js"></script>
+		<script src="public/js/formsCallbackMap.js"></script>
+		<script src="public/js/formValidator.js"></script>
+	</body>
+</html>

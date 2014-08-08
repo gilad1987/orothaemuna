@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title><?php echo $this->pageTitle?></title>
+		<meta name="robots" content="nofollow" />
+		<base href="/<?php if(!empty(App_Config::$base_directory)): echo BASE_DIRECTORY.'/'; endif;?>" />
+		<meta name="description" content="Minimal empty page" />
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		
+		<link rel="stylesheet" href="public/css/site/style.css" />
+		<link rel="stylesheet" href="public/css/site/font-awesome.css" />
+		
+<!-- 		<script src="public/js/template/jquery-2.0.3.min.js"></script> -->
+		<script src="public/js/site/jQuery.v1.10.2.js"></script>
+		<script src="public/js/site/jquery.customSelect.js"></script>
+		<script src="public/js/site/audio5.js"></script>
+		
+		<script src="public/js/gt_library/gt.core.js"></script>
+		<script src="public/js/gt_library/gt.core.event.js"></script>
+		<script src="public/js/gt_library/gt.media.AbstractPlayerStateController.js"></script>
+		<script src="public/js/gt_library/gt.media.HTML5PlayerStateController.js"></script>
+		<script src="public/js/gt_library/gt.media.PlayerStateView.js"></script>
+
+		<script src="public/js/gt_library/gt.media.AbstractPlayerTrackerController.js"></script>
+		<script src="public/js/gt_library/gt.media.HTML5PlayerTrackerController.js"></script>
+		<script src="public/js/gt_library/gt.media.PlayerTrackerView.js"></script>
+		<script src="public/js/gt_library/gt.media.PlayerTimeTrackerView.js"></script>
+				
+		<script src="public/js/validationFunctions.js"></script>
+		<script src="public/js/site/formsCallbackMap.js"></script>
+		<script src="public/js/formValidator.js"></script>	
+		<script src="public/js/site/media.js"></script>	
+		
+		
+		<script src="public/js/site/gallery.js"></script>	
+		<script src="public/js/site/script.js"></script>
+		<script src="public/js/site/LessonCtrl.js"></script>
+
+		<script src="public/js/readmore.js"></script>
+		
+		
+		<meta property="og:title" content="מיזם אורות האמונה"/>
+		<meta property="og:image" content="<?php echo App_Config::$base_url;?>public/images/200x200.jpg"/>
+		<meta property="og:site_name" content="מיזם אורות האמונה"/>
+		<meta property="og:description" content="בית מדרש פתוח לעניינים שברוח"/>
+		<meta property="og:url" content="<?php echo App_Config::$base_url;?>"/>
+		<meta property="fb:app_id" content="<?php echo App_Config::$fb_app_id;?>"/>
+
+
+		<script>
+            TaskHelper = {};
+            TaskHelper.token = '<?php echo $this->escape($this->csrf_token) ?>';
+		</script>
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-36709631-1', 'orothaemuna.co.il');
+		  ga('send', 'pageview');
+		</script>
+
+        <script>
+
+           // console.log('Load time:<?App_Debugger::setEnd();echo App_Debugger::getTotal();?>');
+        </script>
+	</head>
+
+	<body class="rtl">
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<?php echo App_Config::$fb_app_id;?>";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+		<div class="top-wrapper">
+		
+			<div class="header max960">
+				<h1>מיזם <span class="bez">אורות האמונה</span></h1> 
+				<h2>באתר זה אפשר להוריד שיעורים ולהתעדכן בשיעורים<br/> חדשים שנאמרים ע"י המרצים של אורות האמונה</h2>
+			</div>
+            <!--
+			<div class='fb-like-header max960'>
+				<div class="fb-share-button" data-href="http://orothaemuna.co.il/" data-type="button_count"></div>
+			</div>
+			-->
+
+			<div id='wrap-download-select' class="wrap-download-select hide-player"><?php // hide-player ?>
+				
+					<div class="max960">
+						<div id="wrapper-lesson-filter-and-player">
+							<form id="filter" method="post" class="gt-validate" action="<?php echo $this->url(array("ctrl"=>"lessons","act"=>"filter"))?>">
+							<input type="hidden" name="filter_name" id="filter_name"/>
+                                <input type="hidden" name="parse" id="parse" value="json"/>
+								<div class="section-select">
+									<div class="wrap-personal-select">
+										<select id="lecturer_id" name="lecturer_id" class="filter">
+											<option value="0">בחר מרצה</option>
+											<?php if(isset($this->lecturers)):?>
+											<?php foreach ($this->lecturers as $lecturer): ?>
+											<option value="<?php echo $this->escape($lecturer->id);?>"><?php echo $this->escape($lecturer->text);?></option>
+											<?php endforeach;?>
+											<?php endif;?>
+										</select>
+									</div>
+									<div class="wrap-personal-select">
+									<select id="year_id" name="year_id" class="filter disable" disabled="disabled">
+										<option value="0">בחר שנה</option>
+									</select>
+									</div>
+								</div>
+								
+								<div class="section-select">
+									<div class="wrap-personal-select">
+										<select id="series_id" name="series_id" class="filter disable"  disabled="disabled">
+											<option value="0">בחר סדרה</option>
+										</select>
+									</div>
+									<div class="wrap-personal-select">
+										<select id="location_id" name="location_id" class="filter disable" disabled="disabled">
+											<option value="0">בחר מיקום</option>
+										</select>
+									</div>
+									<div class="wrap-personal-select number block ggg">
+										<select id="number" name="number" class="filter disable"  disabled="disabled">
+											<option value="0">שיעור מס' </option>
+										</select>
+									</div>
+								</div>
+							</form>	
+							
+							<iframe style='display: none' name='download-iframe' id='download-iframe' ></iframe>
+							
+							<div id='lesson-options' class="wrap-lesson-btn ">
+	<!-- 							<div class="btn-choose-lesson btn-lesson"><i class="fa fa-hand-o-up"></i> בחר שיעור</div> -->
+								<form  id="download" method="post" class="gt-validate download-form" action="<?php echo $this->url(array("ctrl"=>"lessons","act"=>"filter"))?>">
+									<input type="hidden" name="lesson" id="filter_name"/>
+									<a id='lesson-download-btn'target='download-iframe' class="btn-save btn-lesson" ><i class="fa fa-floppy-o"></i> הורד קובץ</a>
+								</form>
+								<div id="audio-player" class="audio-player ">
+									<div class="left">
+										<div id="play-and-pause" class="play-and-pause play">
+											<div class="align-center">
+												<i class="fa fa-play"></i>
+												<i class="fa fa-pause"></i>
+											</div>
+										</div>
+									</div>
+									<div class="right">
+										<div  class="volume">
+											<div id="wrap-volume-mode" class="wrap-volume-mode">
+												<div  class="volume-live"></div>
+											</div>
+											<div class="volume-img"></div>
+										</div>
+										<div class="text">
+											<div id='details' class="details"></div>
+											<div class="time">
+												<span id="time-elapsed">00:00</span> / <span id="time-duration">00:59:00</span>
+											</div>
+										</div>
+									</div>
+									<div class="clear"></div>
+									
+									<div id="tracker" class="progress">
+										<div class="progress-live"></div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				
+			</div>
+			
+			<div class="about-text">
+				<div class="max960">
+					<div class="title">אורות האמונה – בית מדרש פתוח לעניינים שברוח</div>
+					
+		<div id='about' class='about'>
+התהליכים שעברו ושעוברים במאה וחמישים השנים האחרונות על עם ישראל בכלל ובארץ בפרט, תוך שהוא מתחדש בארצו לאחר אלפי שנות פיזור וגלות, הן מבית והן מחוץ – מביאים ומכריחים אותנו- כעם, כחברה וכיחידים, לבירור ועיצוב הזהות הלאומית והפרטית שלנו שהיא עתיקה שבעתיקות וחדשה שבחדשות. עיצוב ובירור שכזה – הן הלאומי והן הפרטי – צריך להיעשות מתוך, ויחד עם, הכרת האוצרות האדירים שלנו וההיסטוריה שלנו. אנו סבורים שאל לנו לשכוח את עצמנו וגם כשמפליגים למחוזות רחוקים עלינו לחפש בבית פנימה. חובה נעימה היא לנו לחפש את 'האוצר' אצלנו בבית פנימה. 
+
+<br/>
+<br/>
+
+ שבחיים, מבקש למצוא עוצמה וגם מנוחה פנימית – שיווי משקל רוחני שאפשר שנמצא בתוך עולם פנימי ובלתי מוכר דיו.
+
+   אנו מאמינים שטיפוח רוח האדם והארת הזהות העצמית שלו, מגדילים את היכולות האישיות להתמודד עם אתגרי העולם והחיים, ולכן בונים חברה טובה ואיתנה יותר.
+
+   אנו מכירים ויודעים שעיצוב זהות עצמית, חברתית ויהודית צריך להיות זמין לכל, ועולם הרוח עם הכלים הלימודיים שלו מתאים לכל מי שמעוניין בעבודה פנימית.
+
+   היעד שלנו הוא ליצור מרחב של לימוד ובירור של אמונה, ערכים ונרטיבים, שבו מוזמן ליטול חלק כל מי שרוצה ומחפש את מה שמעבר לסתמי ולבנאלי. בכוונתנו ליצור מקום שיהווה מפגש וחיבור בין אנשים, ומפגש של אנשים עם אורות האמונה ועם כלים של אמונה.
+
+<br/>
+<br/>
+    וחברה, ישראל והאנושות, אמונה ומודרנה, צדק חברתי, דמות המנהיג ועוד. 
+
+   את הלימוד והבירור אנו מבקשים לעשות מתוך מבט פנימי על החיים, מתוך הכרה בעולמות מגוונים ועמוקים המסוגלים להאיר את דרכו של האדם בעולם, ומתוך רצון לאחד בין עולמות: חדש וישן, רגש ושכל, מוח ולב, קודש וחול, אלוהי ואנושי, נגלה ונסתר – והכל בשמחת יצירה.
+
+   בחרנו ליצור את מרחב הלימוד, את בית המדרש, בתוך האוניברסיטה, מתוך הבנה שמזדמנים אליה מכל קצוות החברה, ומתוך אמונה בכוחות הגדולים הקיימים בה. וכן מתוך הכרה בכוחם של אורות האמונה להפוך, עבור הסטודנט-האדם, תקופה תובענית ומשעבדת לתקופת עליה ופוריות רוחנית.
+				
+
+  <br/>
+<br/>
+
+<div class='bold'>
+פעילות בית המדרש
+
+</div>
+
+בית המדרש פועל כיום במתחם "הלל" בבית התפוצות אחת לשבוע בימי רביעי. 
+
+עתה אנו מעוניינים להרחיב את פעילותו ופותחים את שערי בית המדרש לכל החפץ בכך.
+
+מתוך הבנת העומס המונח על כתפי הסטודנט ומתוך רצון לבנות חבורה יציבה שלומדת יחד, אנו נעניק מלגה של 1250 ₪ על השתתפות (מלאה) בתכנית לימוד (ש"ש).
+		</div>			
+		
+
+   
+				</div>
+			</div>
+			
+				<div class="gallery">
+					<div class="max960">
+					<div class="section_gallery">
+		
+						<div class="arrow_left float_left gallery-arrow" onclick="ProductsGallery.right(0)"><i class="fa fa-chevron-circle-left"></i></div>
+						<div id="wrap_gallery_prodacts" class="wrap_gallery_prodacts current float_left">
+						<div class="wrap_images">
+						<div id="wrap_inner_images" class="wrap_inner_images">
+						<a href="" class="product_image">
+							<img src="public/images/site/gallery/1.jpg" class=" p_03">
+						</a>
+						<a href="" class="product_image">
+							<img src="public/images/site/gallery/2.jpg" class=" p_04">
+						</a>
+						<a href="" class="product_image">
+							<img src="public/images/site/gallery/3.jpg" class=" p_05">
+						</a>
+						<a href="" class="product_image">
+							<img src="public/images/site/gallery/4.jpg" class=" p_06">
+						</a>
+						<a href="" class="product_image">
+							<img src="public/images/site/gallery/5.jpg" class=" p_07">
+						</a>
+						</div>
+						</div>
+						
+						</div>
+						<div class="arrow_right float_left gallery-arrow" onclick="ProductsGallery.left(0)"><i class="fa fa-chevron-circle-right"></i></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="footer">
+				<div class="content">
+					<div class="max960">
+						<div class="wrpper-last-upload-lesson">
+							<div class="title">שיעורים אחרונים.</div>
+							<?php if(isset($this->last_lessons)):?>
+							<ul>
+							<?php foreach ($this->last_lessons as $lesson):?>
+								<li> <?php echo $lesson->lecturers_text ?> - <?php echo $lesson->seriess_text; ?> -  מספר שיעור - <?php echo $lesson->number; ?></li>
+							<?php endforeach;?>
+							</ul>
+							<?php endif;?>
+						</div>
+					
+						<div class="form-wrapper">
+							<div class="title">אפשר להזמין אותך?</div>
+							<div class="about-form">אם את\ה מתלבט\ת נשמח להיפגש על כוס קפה ומאפה 
+להיכרות מעמיקה קצת יותר
+לטעימה קצרה מאורות האמונה
+לשמוע מה מעניין ומעסיק אותך ומה היית רוצה
+							.</div>
+							<form id="contact_us" method="post" class="gt-validate" action="<?php echo $this->url(array("ctrl"=>"index","act"=>"contactus"))?>">
+								<input type="text" class="name field input focus-effect" id="name" name="name" placeholder="הכנס שם מלא">
+								<input type="text" class="mail field input focus-effect" id="mail" name="mail" placeholder="הכנס כתובת מייל">
+								<textarea id="content-msg" class="content-msg field focus-effect" placeholder="הכנס טקטס בקצרה..."></textarea>
+								<input type="submit" id="send-btn" class="send-btn" value="שלח" />
+								<div class="clear"></div>
+							</form>
+							<div class="clear"></div>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="fb-likes-wrapper max960 fb-ltr ">
+					<div class="fb-like-box" data-href="https://www.facebook.com/pages/%D7%9E%D7%99%D7%96%D7%9D-%D7%90%D7%95%D7%A8%D7%95%D7%AA-%D7%94%D7%90%D7%9E%D7%95%D7%A0%D7%94/519503198129500" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"  data-width='100%' ></div>
+				</div>
+				
+				<div class="all-rights-reserved">
+					<div class="max960">
+						<div class="en">
+						COPYRIGHT © 2014 Orothaemuna. ALL RIGHTS RESERVED.
+						</div>
+						<div class="he">
+						© כל הזכויות שמורות. מיזם אורות האמונה 2014.  
+						</div>
+						
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

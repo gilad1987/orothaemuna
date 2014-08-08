@@ -1,0 +1,15 @@
+<IfModule mod_suphp.c>
+#suPHP_ConfigPath /home1/gilad219/public_html/orothaemuna.co.il
+<Files php.ini>
+#order allow,deny
+#deny from all
+</Files>
+</IfModule>
+
+#Use PHP 5.3
+#AddType application/x-httpd-php53 .php
+#php_value date.timezone "Asia/Jerusalem"
+
+#ErrorDocument 404 /admin.php/admin/404[QSA,L]
+RewriteEngine On
+RewriteRule ^(admin|index)\/?(\d*[a-zA-Z]*)\/?+([a-zA-Z]*)?+\/?+([a-zA-Z]*)?+$ $1.php?c=$2&a=$3&page=$4 [QSA,L]

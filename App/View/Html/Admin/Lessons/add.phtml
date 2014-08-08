@@ -1,0 +1,256 @@
+<div class="max-w1024">
+	<section>
+	<div class="add-filters-wrapper widget-box collapsed">
+			<div class="widget-header">
+				<h5 class="smaller">הוספת ערכים חדשים לסיווג שיעור</h5>
+				<span class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="icon-chevron-up"></i>
+					</a>
+
+				</span>
+				<div class="widget-toolbar no-border">
+
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="">
+							<a data-toggle="tab" href="#series"> סדרה </a>
+						</li>
+						
+						<li class="">
+							<a data-toggle="tab" href="#location"> מיקום </a>
+						</li>
+						
+						<li class="">
+							<a data-toggle="tab" href="#year"> שנה </a>
+						</li>
+						
+						<li class="active">
+							<a data-toggle="tab" href="#lecturer"> מרצה </a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+
+			<div id="add-filters-body" class="widget-body ">
+				<div class="widget-main padding-6">
+				
+					<div class="tab-content">
+						<div id="lecturer" class="tab-pane active">
+							<div class=" add-filter-inputs-wrapper" >
+									<input type="text" class="form-control add-query gt-string" placeholder="הכנס מרצה חדשה" data-identifier="1">
+									<button type="button" class="btn btn-sm btn-success">
+											<i class="icon-arrow-left icon-on-right bigger-110"></i>
+											הוסף
+									</button>
+								<div id="filter_text-error-msg" class="filter-success-msg"></div>
+							</div>
+						</div>
+
+						<div id="year" class="tab-pane">
+							<div  class=" add-filter-inputs-wrapper" >
+								<input type="text" class="form-control add-query gt-string" placeholder="הכנס שנה חדשה"  data-identifier="2">
+								<button type="button" class="btn btn-sm btn-success">
+										<i class="icon-arrow-left icon-on-right bigger-110"></i>
+										הוסף
+								</button>
+								<div class="filter-success-msg"></div>
+							</div>
+						</div>
+
+						<div id="location" class="tab-pane">
+							<div  class=" add-filter-inputs-wrapper" >
+								<input type="text" class="form-control add-query gt-string" placeholder="הכנס מיקום חדש"  data-identifier="3">
+								<button type="button" class="btn btn-sm btn-success">
+										<i class="icon-arrow-left icon-on-right bigger-110"></i>
+										הוסף
+								</button>
+								<div class="filter-success-msg"></div>
+							</div>
+						</div>
+
+						<div id="series" class="tab-pane">
+							<div  class=" add-filter-inputs-wrapper" >
+								<input type="text" class="form-control add-query gt-string" placeholder="הכנס סדרה חדש"  data-identifier="4">
+								<button type="button" class="btn btn-sm btn-success">
+										<i class="icon-arrow-left icon-on-right bigger-110"></i>
+										הוסף
+								</button>
+								<div class="filter-success-msg"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</section>
+
+</div>
+
+<form id="<?php if(isset($this->lesson)):?>updateForm<?else: ?>addForm<?endif;?>" action="admin/lessons/<?php if(isset($this->lesson)):?>update<?else: ?>add<?endif;?>" method="post" class="gt-validate">
+    <input type="hidden" name="parse" id="parse" value="json"/>
+    <input type="hidden" name="id" id="id" value="<?php if(isset($this->lesson)): echo $this->lesson->id; endif;?>"/>
+<div class="max-w1024">
+	<div id="success-msg" class="alert alert-block alert-success" style="display: none">
+		<button type="button" class="close" data-dismiss="alert">
+			<i class="icon-remove"></i>
+		</button>
+
+		<p>
+			<strong>
+				<i class="icon-ok"></i>
+				השיעור <?php if(isset($this->lesson)):?>עודכן<?php else:?>נוסף<?php endif;?> בהצלחה.	
+			</strong>
+		</p>
+
+	</div>
+	
+
+	<section>
+		<div class="header">סיווג השיעור</div>
+		<div class="body">
+		<!-- 
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+
+			<strong>
+				לא הזנת כלום - 
+			</strong>
+
+			שדות חובה.
+			<br>
+		</div>
+		 -->
+			<div class="select_wrapper">
+			<select class="chosen-rtl gt-min" name="series_id" id="series_id" data-min="1">
+				<option value="0">סידרת השיעור</option>
+				<?php foreach ($this->series as $series): ?>
+				<option value="<?php echo $this->escape($series->id)?>" <?php if(isset($this->lesson->series_id) && $this->lesson->seriess_id == $series->id):?>selected<?php endif;?>><?php echo $this->escape($series->text)?></option>
+				<?php endforeach;?>	
+			</select>
+			
+			<select class="chosen-rtl gt-min" name="location_id" id="location_id" data-min="1">
+				<option value="0">בחר מיקום שיעור</option>
+				<?php foreach ($this->places as $place): ?>
+				<option value="<?php echo $this->escape($place->id)?>" <?php if(isset($this->lesson->location_id) && $this->lesson->location_id == $place->id):?>selected<?php endif;?>><?php echo $this->escape($place->text)?></option>
+				<?php endforeach;?>							
+			</select>					
+				
+			<select class="chosen-rtl gt-min" name="year_id" id="year_id" data-min="1">
+				<option value="0">בחר שנה</option>
+				<?php foreach ($this->years as $year): ?>
+				<option value="<?php echo $this->escape($year->id)?>" <?php if(isset($this->lesson->year_id) && $this->lesson->years_id == $year->id):?>selected<?php endif;?>><?php echo $this->escape($year->text);?></option>
+				<?php endforeach;?>					
+			</select>
+								
+			<select class="chosen-rtl gt-min" name="lecturer_id" id="lecturer_id" data-min="1">
+				<option value="0">שם מרצה</option>
+				<?php foreach ($this->lecturers as $lecturer): ?>
+				<option value="<?php echo $this->escape($lecturer->id);?>" <?php if(isset($this->lesson->lecturer_id) && $this->lesson->lecturers_id == $lecturer->id):?>selected<?php endif;?>><?php echo $this->escape($lecturer->text);?></option>
+				<?php endforeach;?>			
+			</select>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</section>
+	
+	<div class="row-wrapper-details">
+		<div class="wrapper-col">
+			<section class="col">
+				<div class="header ">פרטים נוספים על השיעור</div>
+				<div class="body">
+					<div>					
+						<label>מספר שיעור בסדרה</label>
+						<input type="text" value="<?php if(isset($this->lesson)): echo $this->lesson->number; endif;?>" class="sm gt-numeric" name="number" id="number" placeholder="שדה חובה" onkeypress="return isNumber(event)"/>
+					</div>
+					
+					<div>					
+						<label>שם השיעור</label>
+						<input type="text" value="<?php if(isset($this->lesson)): echo $this->lesson->name; endif;?>" class="sm gt-string" name="name" id="name" placeholder="שדה חובה"/>
+					</div>
+														
+					<div>					
+						<label>תאריך שנאמר השיעור</label>
+						<!-- <input type="text" class="sm gt-string" name="date" id="date"/> -->
+						<div class="input-group">
+						<input class="form-control datepicker gt-string" value="<?php if(isset($this->lesson)): echo $this->lesson->date; endif;?>" name="date" id="date" type="text" data-date-format="dd-mm-yyyy" placeholder="שדה חובה">
+						<span class="input-group-addon">
+						<i class="icon-calendar bigger-110"></i>
+						</span>
+						</div>
+					</div>
+					
+				</div>			
+			</section>
+		</div>	
+		
+		<div class="wrapper-col">		
+			<section class="col">
+				<div class="header">בחירת קבצי שמע</div>
+				<div class="body">
+					<div>					
+						<label>שם הקובץ</label>
+						<input type="text" class="sm gt-string" name="voice_ftp_url" id="voice_ftp_url"  placeholder="<?php if(!isset($this->lesson)):?>שדה חובה - רק קבצי .mp3<?endif;?>"/>
+					</div>								
+				</div>			
+			</section>
+		</div>	
+		
+		<div class="wrapper-col">	
+			<section class="col widget-box">
+<!-- 				<div class="not-available"><div class="wrap-text"><div class="text">לא זמין</div></div></div> -->
+				<div class="header widget-header">בחירת קבצי וידאו
+				<div class="widget-toolbar">
+				
+				</div>
+				</div>
+				<div class="body widget-body">
+					<div>					
+						<label>כתובת בשרת / YouTube</label>
+						<input type="text" class="sm " name="video_ftp_url" id="video_ftp_url"/>
+					</div>								
+				</div>			
+			</section>
+		</div>
+
+		
+		<div class="clear"></div>
+	</div>
+	
+	<section>
+<!-- 	<div class="not-available"><div class="wrap-text"><div class="text">לא זמין</div></div></div> -->
+		<div class="header">סיכום ומקורות</div>
+		<div class="body">
+			<label>מקורות השיעור</label>
+			<textarea class="a " name="source" id="source"></textarea>
+			<label>סיכום קצר</label>
+			<textarea name="summery" id="summery" class=""></textarea>	
+			<label>מקורות מלאים להדפסה</label>
+			<textarea name="source_to_print" id="source_to_print" class=""></textarea>				
+		</div>			
+	</section>	
+</div>
+
+<div class="form-action">
+	<button class="btn" type="reset">
+		<i class="icon-undo"></i>
+		נקה הכל
+	</button>
+					
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<button class="btn btn-info" type="submit">
+		<i class="icon-ok"></i>
+		שלח
+	</button>
+
+</div>							
+</form>
+
+<form id="addFilterForm" class="gt-validate" action="<?php echo $this->url(array("ctrl"=>"filters","act"=>"add"));?>" method="post">
+<input type="hidden" class="gt-string" id="filter_text" name="filter_name" value="" />
+<input type="hidden" class="gt-numeric" id="filter_identifier" name="filter_identifier" value="" />
+</form>
