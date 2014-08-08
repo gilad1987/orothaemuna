@@ -2,7 +2,10 @@
 
     function GtPlayerDirective()
     {
-
+        var tag = document.createElement('script');
+        tag.src = "../lib/audio5.js";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         return  {
             priority: 0,

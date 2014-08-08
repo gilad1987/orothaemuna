@@ -1,8 +1,8 @@
 var scripts = [
     'components/angular/angular.js',
     'components/angular-ui-router/release/angular-ui-router.js',
-    'lib/**/*.js',
-    'lib/*.js',
+//    'lib/**/*.js',
+//    'lib/*.js',
 
     'src/js/**/*.services.module.js',
     'src/js/**/*.directives.module.js',
