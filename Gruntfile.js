@@ -36,7 +36,10 @@ var scripts = [
 var styles = [
     'components/bootstrap/dist/css/bootstrap.css',
     'src/css/*.css',
-    'src/css/**/*.css'
+    'src/css/**/*.css',
+
+    'src/js/**/*.css',
+    'src/js/*.css'
 ];
 
 module.exports = function(grunt) {
@@ -61,14 +64,16 @@ module.exports = function(grunt) {
 
                 transform: function (filepath, file, i, length) {
                     var tag,
-                        max,min;
+                        max,min,is_css,is_js;
 
                     min=1111; max=9999;
+                    is_css = filepath.indexOf('.css') != -1;
+                    is_js = filepath.indexOf('.js') != -1;
 
-                    if(filepath.indexOf('css') != -1){
+                    if(is_css){
                         tag = "<link rel='stylesheet' href='<filename>'>";
                     }
-                    if(filepath.indexOf('js') != -1){
+                    if(is_js){
                         tag = "<script src='<filename>'></script>";
                     }
 
