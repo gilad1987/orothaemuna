@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         ngtemplates:  {
-            app: {
+            orothaemuna: {
                 src:      'src/js/**/*.html',
                 dest:     'src/js/ng-template.js',
                 options:  {
@@ -97,6 +97,10 @@ module.exports = function(grunt) {
             dist: {
                 src: scripts,
                 dest: 'dist/script.js'
+            },
+            css: {
+                src: styles,
+                dest: 'dist/style.css'
             }
         },
 
@@ -115,6 +119,18 @@ module.exports = function(grunt) {
             }
         },
 
+        cssmin: {
+            add_banner: {
+                options: {
+                    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                            '<%= grunt.template.today("yyyy-mm-dd") %> */'
+                },
+                files: {
+                    'dist/style.min.css': styles
+                }
+            }
+        },
+
         watch: {
             gruntfile: {
                 files: 'Gruntfile.js',
@@ -129,7 +145,7 @@ module.exports = function(grunt) {
 
 
     });
-
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-angular-templates');
     grunt.loadNpmTasks('grunt-injector');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -137,7 +153,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
-    grunt.registerTask('default',['injector','ngtemplates','concat','uglify']);
+    grunt.registerTask('default',['injector','ngtemplates']);
 
-    grunt.registerTask('production', ['concat','uglify']);
+    grunt.registerTask('production', ['ngtemplates','concat','uglify','cssmin']);
 };

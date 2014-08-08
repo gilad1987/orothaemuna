@@ -5,6 +5,6 @@
 
     }
 
-    angular.module('app').config(['$stateProvider','$urlRouterProvider',Config]);
+    angular.module('orothaemuna').config(['$stateProvider','$urlRouterProvider',Config]);
 
 })();

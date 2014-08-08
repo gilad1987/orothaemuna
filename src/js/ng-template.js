@@ -1,4 +1,4 @@
-angular.module('app').run(['$templateCache', function($templateCache) {
+angular.module('orothaemuna').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('src/js/html5player/html5player.html',
