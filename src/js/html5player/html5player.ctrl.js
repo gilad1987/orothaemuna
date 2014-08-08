@@ -7,4 +7,4 @@
 
     angular.module('html5player').controller('Html5PlayerController',['$scope', Html5PlayerController]);
 
-})();
+})();x
