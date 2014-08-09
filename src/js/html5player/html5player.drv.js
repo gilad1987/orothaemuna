@@ -1,5 +1,9 @@
 (function () {
 
+    /**
+     * @returns {{priority: number, templateUrl: string, scope: {}, controller: controller, controllerAs: string, link: link}}
+     * @constructor
+     */
     function GtPlayerDirective()
     {
         var tag = document.createElement('script');
@@ -17,13 +21,8 @@
 
             },
             controllerAs: 'stringAlias',
-            compile: function compile(tElement, tAttrs, transclude) {
+            link:function(scope, iElement, iAttrs, controller){
 
-                return {
-                    post: function postLink(scope, iElement, iAttrs, controller) {
-
-                    }
-                }
             }
         };
 
@@ -33,3 +32,4 @@
     angular.module('html5player').directive('gtPlayer',GtPlayerDirective);
 
 })();
+
