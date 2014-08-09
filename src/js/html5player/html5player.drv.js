@@ -21,7 +21,7 @@
 
             },
             controllerAs: 'stringAlias',
-            link:function(scope, iElement, iAttrs, controller){
+            link:function(scope, element, attrs, controller){
 
             }
         };
