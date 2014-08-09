@@ -20,11 +20,13 @@
             params.format_time = _boolean;
         }
 
+
         this.$get = function(){
             return {
                 params:params,
                 get:function(){
                     if(typeof audio === 'undefined'){
+                        console.log('init audio');
                         audio = new Audio5js(params);
                     }
 
@@ -34,6 +36,6 @@
         }
     }
 
-    angular.module('html5player').provider('Audio5AudioService',Audio5PlayerConfigService);
+    angular.module('html5player').provider('Audio5AudioService',[Audio5PlayerConfigService]);
 
 })();

@@ -4,26 +4,26 @@
     <title></title>
 
     <!-- injector:css -->
-    <link rel='stylesheet' href='../components/bootstrap/dist/css/bootstrap.css?v=7003'>
-    <link rel='stylesheet' href='../src/css/style.css?v=8261'>
-    <link rel='stylesheet' href='../src/js/html5player/html5player.css?v=6748'>
+    <link rel='stylesheet' href='../components/bootstrap/dist/css/bootstrap.css?v=1518'>
+    <link rel='stylesheet' href='../src/css/style.css?v=8747'>
+    <link rel='stylesheet' href='../src/js/html5player/html5player.css?v=3376'>
     <!-- endinjector -->
 
     <!-- injector:js -->
-    <script src='../components/angular/angular.js?v=7424'></script>
-    <script src='../components/angular-ui-router/release/angular-ui-router.js?v=2029'></script>
-    <script src='../src/js/app.module.js?v=2127'></script>
-    <script src='../src/js/html5player/html5player.module.js?v=2147'></script>
-    <script src='../src/js/youtube/youtube.module.js?v=3513'></script>
-    <script src='../src/js/html5player/html5player.srv.js?v=6564'></script>
-    <script src='../src/js/html5player/html5player.drv.js?v=2058'></script>
-    <script src='../src/js/youtube/youtube.drv.js?v=4730'></script>
-    <script src='../src/js/html5player/html5player.ctrl.js?v=4910'></script>
-    <script src='../src/js/youtube/youtube.ctrl.js?v=6673'></script>
-    <script src='../src/js/ng-template.js?v=8955'></script>
-    <script src='../src/js/app.module.config.js?v=1262'></script>
-    <script src='../src/js/html5player/html5player.module.config.js?v=6859'></script>
-    <script src='../src/js/app.module.bootstrap.js?v=6598'></script>
+    <script src='../components/angular/angular.js?v=3078'></script>
+    <script src='../components/angular-ui-router/release/angular-ui-router.js?v=6183'></script>
+    <script src='../src/js/app.module.js?v=4567'></script>
+    <script src='../src/js/html5player/html5player.module.js?v=3521'></script>
+    <script src='../src/js/youtube/youtube.module.js?v=6693'></script>
+    <script src='../src/js/html5player/html5player.srv.js?v=4949'></script>
+    <script src='../src/js/html5player/html5player.drv.js?v=8659'></script>
+    <script src='../src/js/youtube/youtube.drv.js?v=4503'></script>
+    <script src='../src/js/html5player/html5player.ctrl.js?v=3173'></script>
+    <script src='../src/js/youtube/youtube.ctrl.js?v=1287'></script>
+    <script src='../src/js/ng-template.js?v=7112'></script>
+    <script src='../src/js/app.module.config.js?v=4398'></script>
+    <script src='../src/js/html5player/html5player.module.config.js?v=6911'></script>
+    <script src='../src/js/app.module.bootstrap.js?v=3123'></script>
     <!-- endinjector -->
 
 </head>
@@ -43,7 +43,11 @@
 
 <div ng-controller="Html5PlayerController as AudioCtrl">
 
-    <div gt-player path="../files/audio/0bf2d6de463070a01842acaa7a8f13f8_9424.mp3"></div>
+    <button ng-click="AudioCtrl.changePath()">change path</button>
+
+    <div gt-player path="{{AudioCtrl.player.path}}" class="gt-html5player"></div>
+
+    <div gt-player path="{{AudioCtrl.player.path}}" class="bottom gt-html5player"></div>
 
 </div>
 </body>

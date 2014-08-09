@@ -8,7 +8,17 @@ angular.module('orothaemuna').run(['$templateCache', function($templateCache) {
     "\n" +
     "    <button ng-click=\"AudioCtrl.load()\">load init</button>\r" +
     "\n" +
+    "    <button ng-click=\"AudioCtrl.play()\">Play</button>\r" +
+    "\n" +
+    "    <button ng-click=\"AudioCtrl.stop()\">Stop</button>\r" +
+    "\n" +
     "\r" +
+    "\n" +
+    "    <div class=\"gt-tracker\">\r" +
+    "\n" +
+    "        <div class=\"gt-progress\"></div>\r" +
+    "\n" +
+    "    </div>\r" +
     "\n" +
     "</div>"
   );
