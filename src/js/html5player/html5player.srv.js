@@ -2,9 +2,13 @@
 
     function Audio5PlayerConfigService()
     {
-        var params = {
+        var params,
+            audio;
+
+        params = {
             throw_errors:true,
-            format_time:true
+            format_time:true,
+            codecs: ['mp4', 'vorbis', 'mp3']
         };
 
 
@@ -17,10 +21,19 @@
         }
 
         this.$get = function(){
-            return params;
+            return {
+                params:params,
+                get:function(){
+                    if(typeof audio === 'undefined'){
+                        audio = new Audio5js(params);
+                    }
+
+                    return audio;
+                }
+            };
         }
     }
 
-    angular.module('html5player').provider('Audio5PlayerConfigService',Audio5PlayerConfigService);
+    angular.module('html5player').provider('Audio5AudioService',Audio5PlayerConfigService);
 
 })();
