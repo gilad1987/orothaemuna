@@ -20,6 +20,8 @@ angular.module('orothaemuna').run(['$templateCache', function($templateCache) {
     "\n" +
     "    </div>\r" +
     "\n" +
+    "\r" +
+    "\n" +
     "</div>"
   );
 

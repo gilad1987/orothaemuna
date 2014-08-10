@@ -16,6 +16,9 @@ var scripts = [
     'src/js/**/*.srv.js',
     'src/js/*.srv.js',
 
+    'src/js/**/*.constants.js',
+    'src/js/*.constants.js',
+
     'src/js/**/*.drv.js',
     'src/js/*.drv.js',
 
