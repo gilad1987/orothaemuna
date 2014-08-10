@@ -1,4 +1,5 @@
 var scripts = [
+    'components/jquery/dist/jquery.js',
     'components/angular/angular.js',
     'components/angular-ui-router/release/angular-ui-router.js',
 //    'lib/**/*.js',

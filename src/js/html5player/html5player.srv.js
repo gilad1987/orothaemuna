@@ -26,7 +26,6 @@
                 params:params,
                 get:function(){
                     if(typeof audio === 'undefined'){
-                        console.log('init audio');
                         audio = new Audio5js(params);
                     }
 

@@ -24,8 +24,23 @@
             Audio5AudioService.get().play();
         }
 
-        function onTimeUpdate(){
+        function onTimeUpdate(elem, duration, position, currentPositionPercent){
+            var percent,
+                positionPercent;
 
+            duration = Math.round(duration);
+            position = Math.round(position);
+
+            percent = duration/100;
+            positionPercent = Math.round( position / percent );
+
+            if(currentPositionPercent == positionPercent){
+                return positionPercent;
+            }
+
+            elem.css('width',positionPercent+'%');
+
+            return positionPercent;
         }
 
 
@@ -40,15 +55,29 @@
             controller: ['$scope', '$element', '$attrs', function ctrl(scope, element, attrs) {
 
                 var cache = {
-                    currentPath:null
+                    currentPath:null,
+                    getProgress: (function(){
+                        var elem;
+                        elem = element.find('.gt-progress');
+                        return function(){
+                            return elem;
+                        }
+                    })()
                 };
 
-                var subscribeOnReady = false;
+                var subscribeOnReady = false,
+                    currentProgressBarPositionPercent;
 
                 scope.$on('Audio:changePath',onPathChange);
                 scope.$on('Audio:Stop',onStop);
                 scope.$on('Audio:Play',onPlay);
-                scope.$on('Audio:onTimeUpdate',onTimeUpdate);
+                scope.$on('Audio:onTimeUpdate',function(){
+                    var elem = cache.getProgress(),
+                        duration = Audio5AudioService.get().audio.audio.duration,
+                        position = Audio5AudioService.get().audio.position;
+
+                    currentProgressBarPositionPercent = onTimeUpdate.call(this, elem, duration, position, currentProgressBarPositionPercent);
+                });
 
                 this.load = function(){
                     if(!subscribeOnReady){
