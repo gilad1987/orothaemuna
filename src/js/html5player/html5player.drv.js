@@ -12,9 +12,9 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         var PLAYER_STATES = {
-                STOP:1,
-                PAUSE:2,
-                PLAYER:3
+                stop:1,
+                pause:2,
+                play:3
         };
 
         function onPathChange(event, path){
@@ -73,7 +73,7 @@
 
                 var player = {
                     path:null,
-                    state: PLAYER_EVENTS.stop,
+                    state: PLAYER_STATES.stop,
                     volume:1
                 };
 
