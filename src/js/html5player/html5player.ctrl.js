@@ -1,10 +1,11 @@
 (function () {
 
-    function Html5PlayerController($scope)
+    function Html5PlayerController($scope, PLAYER_EVENTS)
     {
         this.player = {
             path : '../files/audio/0bf2d6de463070a01842acaa7a8f13f8_9424.mp3'
         }
+
 
 
         this.changePath = function(){
@@ -12,6 +13,6 @@
         }
     }
 
-    angular.module('html5player').controller('Html5PlayerController',['$scope', Html5PlayerController]);
+    angular.module('html5player').controller('Html5PlayerController',['$scope','PLAYER_EVENTS', Html5PlayerController]);
 
 })();

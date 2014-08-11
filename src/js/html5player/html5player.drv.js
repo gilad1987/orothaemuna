@@ -1,6 +1,8 @@
+var m;
+
 (function () {
 
-    function GtPlayerDirective(Audio5AudioService,PLAYER_EVENTS)
+    function GtPlayerDirective(Audio5AudioService,PLAYER_EVENTS,$rootScope)
     {
         /**
          * Load Audio5js Library
@@ -17,19 +19,29 @@
                 play:3
         };
 
-        function onPathChange(event, path){
-            Audio5AudioService.get().load(path);
+        var rootScopeBindPlayerEvents = false;
+
+        function initBindEvents(scope,isolate)
+        {
+            if(!isolate && rootScopeBindPlayerEvents)return;
+
+            var isRootScope = isolate ? false : true;
+
+            if(isRootScope){
+                rootScopeBindPlayerEvents = true;
+            }
+
+            function onChange(event, eventType,isIsolate){
+                if(isIsolate && isRootScope){
+                    return
+                };
+                scope.$broadcast(eventType,isRootScope,isIsolate);
+            };
+
+            scope.$on(PLAYER_EVENTS.change, onChange);
         }
 
-        function onStop(){
-            Audio5AudioService.get().pause();
-        }
-
-        function onPlay(){
-            Audio5AudioService.get().play();
-        }
-
-        function onTimeUpdate(elem, duration, position, currentPositionPercent){
+        function updateProgressOnTimeUpdate(elem, duration, position, controller){
             var percent,
                 positionPercent;
 
@@ -39,7 +51,7 @@
             percent = duration/100;
             positionPercent = Math.round( position / percent );
 
-            if(currentPositionPercent == positionPercent){
+            if(controller.currentPositionPercent == positionPercent){
                 return positionPercent;
             }
 
@@ -48,90 +60,134 @@
             return positionPercent;
         }
 
+        var player = {
+                path:null,
+                state: PLAYER_EVENTS.stop,
+                volume:1
+        };
 
-
+        var elements = [];
 
         return  {
             priority: 0,
             templateUrl: 'src/js/html5player/html5player.html', // in chase
             scope: {
                 path: '@path',
-                tracker: '=tracker'
+                tracker: '=tracker',
+                isolate: '@isolate'
             },
             controllerAs:'AudioCtrl',
             controller: ['$scope', '$element', '$attrs', function ctrl(scope, element, attrs) {
 
-                var cache = {
-                    getProgress: (function(){
+                var init = false,
+                    _player,isolate;
+
+                this.isolate = isolate = (typeof scope.isolate != 'undefined') ? Number(scope.isolate) : false;
+                this.tracker = (typeof scope.tracker != 'undefined') ? Number(scope.tracker) : false;
+
+
+
+                function initEvent(){
+                    Audio5AudioService.get().audio.on('timeupdate',function(){
+                        scope.$emit(PLAYER_EVENTS.change, PLAYER_EVENTS.timeUpdate,isolate);
+                    });
+                    init = true;
+                }
+
+                _player = {
+                    path:null,
+                    state: PLAYER_EVENTS.stop,
+                    volume:1
+                };
+
+                this.player = this.isolate ? _player : player;
+
+                this.load = function(){
+                    if(!init) initEvent();
+                    if(this.player.path == scope.path) return;
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.load, this.isolate);
+                }
+
+                this.play = function(){
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.play, this.isolate);
+                }
+
+                this.stop = function(){
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.stop, this.isolate);
+                }
+
+            }],
+
+            link:function(scope, element, attrs, controller){
+
+                var cache,
+                    currentPositionPercent;
+
+                element.attr('id','id_'+Math.random());
+
+                cache = {
+                    getProgressBar: (function(){
                         var elem;
-                        elem = element.find('.gt-progress');
+                        elem = element.find('.gt-progress').attr('id',Math.random());
                         return function(){
                             return elem;
                         }
                     })()
                 };
 
-                var player = {
-                    path:null,
-                    state: PLAYER_STATES.stop,
-                    volume:1
-                };
+                elements.push(element);
 
-                var subscribeOnReady = false,
-                    currentProgressBarPositionPercent;
 
-                scope.$on(PLAYER_EVENTS.changePath, onPathChange);
+                function doPrevent(targetRootScope){
+                    return controller.isolate && targetRootScope;
+                }
+
+                initBindEvents(controller.isolate ? scope : $rootScope ,controller.isolate);
+
+                function onStop(event,targetRootScope){
+                    if(doPrevent(targetRootScope)) return false;
+                    Audio5AudioService.get().pause();
+                }
+
+                function onPlay(event,targetRootScope){
+                    if(doPrevent(targetRootScope)) return false;
+                    element.addClass('play');
+                    Audio5AudioService.get().play();
+                }
+
+                function onLoad(event,targetRootScope){
+                    if(controller.player.path == scope.path) return;
+                    if(doPrevent(targetRootScope)) return false;
+                    controller.player.path = scope.path;
+                    Audio5AudioService.get().load(controller.player.path);
+                }
+
+                function onTimeUpdate(event,targetRootScope){
+                    if(doPrevent(targetRootScope)) return false;
+
+                    var elem,
+                        duration = Audio5AudioService.get().audio.audio.duration,
+                        position = Audio5AudioService.get().audio.position;
+
+                    for(var i = 0; i<elements.length; i++){
+                        elem = elements[i].find('.gt-progress');
+                        this.currentPositionPercent  = updateProgressOnTimeUpdate(elem, duration, position, controller);
+                    }
+
+                }
+
                 scope.$on(PLAYER_EVENTS.stop,onStop);
                 scope.$on(PLAYER_EVENTS.play,onPlay);
+                scope.$on(PLAYER_EVENTS.load,onLoad);
 
-                if(scope.tracker){
-                    scope.$on(PLAYER_EVENTS.timeUpdate,function(){
-                        var elem = cache.getProgress(),
-                            duration = Audio5AudioService.get().audio.audio.duration,
-                            position = Audio5AudioService.get().audio.position;
-
-                        currentProgressBarPositionPercent = onTimeUpdate.call(this, elem, duration, position, currentProgressBarPositionPercent);
-                    });
+                if(controller.tracker){
+                    scope.$on(PLAYER_EVENTS.timeUpdate,onTimeUpdate);
                 }
-
-                if(!scope.tracker){
-                    element.find('.gt-tracker').remove();
-                }
-
-
-                this.load = function(){
-                    if(!subscribeOnReady){
-                        Audio5AudioService.get().audio.on('timeupdate',function(){
-                            scope.$emit(PLAYER_EVENTS.timeUpdate);
-                        });
-                    }
-                    subscribeOnReady=true;
-                    if(player.path == scope.path){
-                        return;
-                    }
-
-                    player.path = scope.path;
-                    scope.$emit(PLAYER_EVENTS.changePath,scope.path);
-                }
-
-                this.play = function(){
-                    scope.$emit(PLAYER_EVENTS.play);
-                }
-
-                this.stop = function(){
-                    scope.$emit(PLAYER_EVENTS.stop);
-                }
-
-
-            }],
-            link:function(scope, element, attrs, controller){
 
             }
         };
-
-
     }
 
-    angular.module('html5player').directive('gtPlayer',['Audio5AudioService','PLAYER_EVENTS',GtPlayerDirective]);
+    angular.module('html5player').directive('gtPlayer',['Audio5AudioService','PLAYER_EVENTS','$rootScope',GtPlayerDirective]);
 
 })();
