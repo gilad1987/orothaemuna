@@ -90,7 +90,6 @@ var m;
 
                 function initEvent(){
                     Audio5AudioService.get().audio.on('timeupdate',function(){
-
                         scope.$emit(PLAYER_EVENTS.change, PLAYER_EVENTS.timeUpdate,isolate, _ctrl.id);
                     });
                     init = true;
