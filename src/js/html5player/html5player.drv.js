@@ -85,7 +85,7 @@ var m;
                 this.isolate = isolate = (typeof scope.isolate != 'undefined') ? Number(scope.isolate) : false;
                 this.tracker = (typeof scope.tracker != 'undefined') ? Number(scope.tracker) : false;
 
-
+                this.id=Math.random();
 
                 function initEvent(){
                     Audio5AudioService.get().audio.on('timeupdate',function(){
@@ -135,9 +135,6 @@ var m;
                     })()
                 };
 
-                elements.push(element);
-
-
                 function doPrevent(targetRootScope){
                     return controller.isolate && targetRootScope;
                 }
@@ -163,15 +160,18 @@ var m;
                 }
 
                 function onTimeUpdate(event,targetRootScope){
-                    if(doPrevent(targetRootScope)) return false;
+//                    if(doPrevent(targetRootScope)) return false;
 
                     var elem,
                         duration = Audio5AudioService.get().audio.audio.duration,
                         position = Audio5AudioService.get().audio.position;
 
-                    for(var i = 0; i<elements.length; i++){
-                        elem = elements[i].find('.gt-progress');
-                        this.currentPositionPercent  = updateProgressOnTimeUpdate(elem, duration, position, controller);
+                    for(var key in elements){
+                        elem = elements[key].e.find('.gt-progress');
+                        if((elements[key].c.isolate && targetRootScope) || (!elements[key].c.isolate && !targetRootScope)){
+                            continue
+                        }
+                        elements[key].c.currentPositionPercent  = updateProgressOnTimeUpdate(elem, duration, position, elements[key].c);
                     }
 
                 }
@@ -179,11 +179,15 @@ var m;
                 scope.$on(PLAYER_EVENTS.stop,onStop);
                 scope.$on(PLAYER_EVENTS.play,onPlay);
                 scope.$on(PLAYER_EVENTS.load,onLoad);
+                elements[controller.id]={
+                    c:controller,
+                    e:element,
+                    i:controller.isolate
+                };
 
                 if(controller.tracker){
                     scope.$on(PLAYER_EVENTS.timeUpdate,onTimeUpdate);
                 }
-
             }
         };
     }
