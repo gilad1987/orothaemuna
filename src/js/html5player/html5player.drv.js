@@ -25,20 +25,20 @@ var m;
         {
             if(!isolate && rootScopeBindPlayerEvents)return;
 
-            var isRootScope = isolate ? false : true;
+            var isRootScope = !isolate;
+
+            function onChange(event, eventType,isIsolate, ctrlId){
+                if(isIsolate && isRootScope){
+                    return
+                };
+                scope.$broadcast(eventType,isRootScope,isIsolate, ctrlId);
+            };
+
+            scope.$on(PLAYER_EVENTS.change, onChange);
 
             if(isRootScope){
                 rootScopeBindPlayerEvents = true;
             }
-
-            function onChange(event, eventType,isIsolate){
-                if(isIsolate && isRootScope){
-                    return
-                };
-                scope.$broadcast(eventType,isRootScope,isIsolate);
-            };
-
-            scope.$on(PLAYER_EVENTS.change, onChange);
         }
 
         function updateProgressOnTimeUpdate(elem, duration, position, controller){
@@ -86,10 +86,12 @@ var m;
                 this.tracker = (typeof scope.tracker != 'undefined') ? Number(scope.tracker) : false;
 
                 this.id=Math.random();
+                var _ctrl = this;
 
                 function initEvent(){
                     Audio5AudioService.get().audio.on('timeupdate',function(){
-                        scope.$emit(PLAYER_EVENTS.change, PLAYER_EVENTS.timeUpdate,isolate);
+
+                        scope.$emit(PLAYER_EVENTS.change, PLAYER_EVENTS.timeUpdate,isolate, _ctrl.id);
                     });
                     init = true;
                 }
@@ -105,15 +107,15 @@ var m;
                 this.load = function(){
                     if(!init) initEvent();
                     if(this.player.path == scope.path) return;
-                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.load, this.isolate);
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.load, this.isolate, _ctrl.id);
                 }
 
                 this.play = function(){
-                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.play, this.isolate);
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.play, this.isolate, _ctrl.id);
                 }
 
                 this.stop = function(){
-                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.stop, this.isolate);
+                    scope.$emit(PLAYER_EVENTS.change,PLAYER_EVENTS.stop, this.isolate,_ctrl.id);
                 }
 
             }],
@@ -123,12 +125,12 @@ var m;
                 var cache,
                     currentPositionPercent;
 
-                element.attr('id','id_'+Math.random());
+                element.attr('id','id_'+controller.id);
 
                 cache = {
                     getProgressBar: (function(){
                         var elem;
-                        elem = element.find('.gt-progress').attr('id','gt_player_progress_'+Math.random());
+                        elem = element.find('.gt-progress').attr('id','gt_player_progress_'+controller.id);
                         return function(){
                             return elem;
                         }
@@ -160,14 +162,17 @@ var m;
                     Audio5AudioService.get().load(controller.player.path);
                 }
 
-                function onTimeUpdate(event,targetRootScope){
+                function onTimeUpdate(event,targetRootScope,isolate, targetCtrlId){
                     var elem,
                         duration = Audio5AudioService.get().audio.audio.duration,
                         position = Audio5AudioService.get().audio.position;
 
                     for(var key in elements){
                         elem = elements[key].DOMelem.find('.gt-progress');
-                        if(!elements[key].ctrl.tracker || (elements[key].ctrl.isolate && targetRootScope) || (!elements[key].ctrl.isolate && !targetRootScope)){
+                        if(   !elements[key].ctrl.tracker
+//                            ||(!targetRootScope && elements[key].ctrl.id != targetCtrlId)
+                            || (elements[key].ctrl.isolate && targetRootScope)
+                            || (!elements[key].ctrl.isolate && !targetRootScope)){
                             continue
                         }
                         elements[key].ctrl.currentPositionPercent  = updateProgressOnTimeUpdate(elem, duration, position, elements[key].ctrl);
