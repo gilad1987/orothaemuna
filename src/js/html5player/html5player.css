@@ -14,3 +14,6 @@
 }
 
 .bottom.gt-html5player {float:right}
+.play .play-button{display:none}
+.stop-button{display:none}
+.play .stop-button{display:inline}

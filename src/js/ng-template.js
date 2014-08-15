@@ -6,9 +6,9 @@ angular.module('orothaemuna').run(['$templateCache', function($templateCache) {
     "\n" +
     "    <button ng-click=\"AudioCtrl.load()\">load init</button>\r" +
     "\n" +
-    "    <button ng-click=\"AudioCtrl.play()\">Play</button>\r" +
+    "    <button ng-click=\"AudioCtrl.play()\" class=\"play-button\">Play</button>\r" +
     "\n" +
-    "    <button ng-click=\"AudioCtrl.stop()\">Stop</button>\r" +
+    "    <button ng-click=\"AudioCtrl.stop()\" class=\"stop-button\">Stop</button>\r" +
     "\n" +
     "    <div class=\"gt-tracker\">\r" +
     "\n" +

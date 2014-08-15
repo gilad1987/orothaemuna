@@ -6,7 +6,7 @@
         stop:'Audio:Stop',
         play:'Audio:Play',
         timeUpdate:'Audio:onTimeUpdate',
-        change:'Audio:change'
+        changeState:'Audio:changeState'
     });
 
 })(angular);
