@@ -2,11 +2,11 @@
 (function (angular) {
 
     angular.module('html5player').constant('PLAYER_EVENTS',{
-        changePath:'Audio:changePath',
-        stop:'Audio:Stop',
-        play:'Audio:Play',
-        timeUpdate:'Audio:onTimeUpdate',
-        changeState:'Audio:changeState'
+        changePath:'Gt-Audio:changePath',
+        stop:'Gt-Audio:Stop',
+        play:'Gt-Audio:Play',
+        timeUpdate:'Gt-Audio:onTimeUpdate',
+        changeState:'Gt-Audio:changeState'
     });
 
 })(angular);
