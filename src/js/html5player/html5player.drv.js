@@ -78,7 +78,7 @@
          * @type {HTMLElement}
          */
         var tag = document.createElement('script');
-        tag.src = '../lib/audio5.js';
+        tag.src = '../components/audio5js/src/audio5.js';
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 

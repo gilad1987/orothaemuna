@@ -2,6 +2,7 @@ var scripts = [
     'components/jquery/dist/jquery.js',
     'components/angular/angular.js',
     'components/angular-ui-router/release/angular-ui-router.js',
+//    'components/audio5js/src/audio5.js',
 //    'lib/**/*.js',
 //    'lib/*.js',
 
