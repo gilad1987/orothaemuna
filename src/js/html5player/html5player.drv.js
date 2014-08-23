@@ -45,12 +45,12 @@
 
         this.id = '_'+Math.floor(Math.random()*9999999999);
         isolate = getIsolateValue(scope);
-        bindEvents(isolate ? scope : $rootScope,isolate,this);
+        bindEvents(isolate ? scope : $rootScope, isolate, this);
 
 
         this.play = function(){
-//            Audio5AudioService.get().play();
-            scope.$emit(_this.getEventName(EVENTS.changeState),_this.getEventName(EVENTS.play),isolate,_this);
+            Audio5AudioService.get().play();
+            scope.$emit(_this.getEventName(EVENTS.changeState), _this.getEventName(EVENTS.play), isolate, _this);
         }
 
         function onPlay(aEvent,isoalte,ctrl){
@@ -60,18 +60,18 @@
 
 
         this.stop = function(){
-//            Audio5AudioService.get().stop();
-            scope.$emit(_this.getEventName(EVENTS.changeState),_this.getEventName(EVENTS.stop),isolate,_this);
+            Audio5AudioService.get().pause();
+            scope.$emit(_this.getEventName(EVENTS.changeState), _this.getEventName(EVENTS.stop), isolate, _this);
         }
 
         function onStop(aEvent,isoalte,ctrl){
             element.removeClass('play');
         }
-        scope.$on(this.getEventName(EVENTS.stop),onStop);
+        scope.$on(this.getEventName(EVENTS.stop), onStop);
 
     }
 
-    function GtPlayerDirective(Audio5AudioService,EVENTS,$rootScope)
+    function GtPlayerDirective(Audio5AudioService, EVENTS, $rootScope)
     {
         /**
          * Load Audio5js Library
@@ -83,14 +83,14 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         tag.onload = function(){
-            console.log('load script');
+            Audio5AudioService.get().load('../files/audio/0bf2d6de463070a01842acaa7a8f13f8_9424.mp3');
         }
 
         _EVENTS = EVENTS;
 
         return  {
             priority: 0,
-            templateUrl: 'src/js/html5player/html5player.html', // in chase
+            templateUrl: 'src/js/html5player/html5player.html',
             scope: {
                 path: '@path',
                 tracker: '=tracker',
