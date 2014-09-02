@@ -49,9 +49,39 @@ var gulp = require('gulp'),
     wait = require('gulp-wait');
 
 
+//var scripts = [
+//    'components/angular/angular.js',
+//    'components/angular-ui-router/release/angular-ui-router.js',
+//
+//    'src/js/**/*.services.module.js',
+//    'src/js/**/*.directives.module.js',
+//    'src/js/**/*.controllers.module.js',
+//
+//    'src/js/*.module.js',
+//    'src/js/**/*.module.js',
+//    'src/js/**/*.module.configuration.js',
+//
+//    'src/js/**/*.srv.js',
+//    'src/js/*.srv.js',
+//
+//    'src/js/**/*.drv.js',
+//    'src/js/*.drv.js',
+//
+//    'src/js/**/*.ctrl.js',
+//    'src/js/*.ctrl.js',
+//
+//    'src/js/**/*.js',
+//
+//    'src/js/angular.bootstrap.js'
+//];
+
 var scripts = [
+    'components/jquery/dist/jquery.js',
     'components/angular/angular.js',
     'components/angular-ui-router/release/angular-ui-router.js',
+//    'components/audio5js/src/audio5.js',
+//    'lib/**/*.js',
+//    'lib/*.js',
 
     'src/js/**/*.services.module.js',
     'src/js/**/*.directives.module.js',
@@ -59,10 +89,13 @@ var scripts = [
 
     'src/js/*.module.js',
     'src/js/**/*.module.js',
-    'src/js/**/*.module.configuration.js',
+
 
     'src/js/**/*.srv.js',
     'src/js/*.srv.js',
+
+    'src/js/**/*.constants.js',
+    'src/js/*.constants.js',
 
     'src/js/**/*.drv.js',
     'src/js/*.drv.js',
@@ -70,7 +103,13 @@ var scripts = [
     'src/js/**/*.ctrl.js',
     'src/js/*.ctrl.js',
 
+    'src/js/ng-template.js',
+    'src/js/**/*.module.config.js',
+
+    'src/js/*.js',
     'src/js/**/*.js',
+    '!src/js/**/*.test.js',
+
 
     'src/js/angular.bootstrap.js'
 ];
