@@ -19,6 +19,7 @@
     "bootstrap": "~3.2.0",
     "angular-bootstrap": "~0.11.0",
     "velocity": "https://github.com/julianshapiro/velocity.git#~0.11.9",
-    "Fibonacci": "https://github.com/maxsteenbergen/Fibonacci.git"
+    "Fibonacci": "https://github.com/maxsteenbergen/Fibonacci.git",
+    "audio5js": "https://github.com/zohararad/audio5js.git#~0.1.9"
   }
 }
