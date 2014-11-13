@@ -2,20 +2,13 @@ angular.module('orothaemuna').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('src/js/html5player/html5player.html',
-    "<div class=\"gt-html5player\">\r" +
-    "\n" +
-    "    <button ng-click=\"AudioCtrl.load()\">load init</button>\r" +
-    "\n" +
-    "    <button ng-click=\"AudioCtrl.play()\" class=\"play-button\">Play</button>\r" +
-    "\n" +
-    "    <button ng-click=\"AudioCtrl.stop()\" class=\"stop-button\">Stop</button>\r" +
-    "\n" +
-    "    <div class=\"gt-tracker\">\r" +
-    "\n" +
-    "        <div class=\"gt-progress\"></div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
+    "<div class=\"gt-html5player\">\n" +
+    "    <button ng-click=\"AudioCtrl.load()\">load init</button>\n" +
+    "    <button ng-click=\"AudioCtrl.play()\" class=\"play-button\">Play</button>\n" +
+    "    <button ng-click=\"AudioCtrl.stop()\" class=\"stop-button\">Stop</button>\n" +
+    "    <div class=\"gt-tracker\">\n" +
+    "        <div class=\"gt-progress\"></div>\n" +
+    "    </div>\n" +
     "</div>"
   );
 

@@ -8,7 +8,7 @@
  gulp-concat
  gulp-uglify
  gulp-imagemin
- gulp-clean
+ gulp-rimraf
  gulp-notify
  gulp-rename
  gulp-livereload
